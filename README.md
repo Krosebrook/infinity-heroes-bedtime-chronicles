@@ -223,6 +223,33 @@ The API key never leaves the server. The client sends story parameters to Vercel
 
 ---
 
+## Troubleshooting
+
+Having issues with setup, build, or runtime? See the [TROUBLESHOOTING.md](TROUBLESHOOTING.md) guide for common problems and solutions.
+
+Quick diagnostics:
+```bash
+node --version  # Should be >= 18
+npm ci
+npx tsc --noEmit
+npm run build
+```
+
+---
+
+## Contributing
+
+We welcome contributions! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, development workflow, and how to submit pull requests.
+
+---
+
+## Security
+
+For security concerns or vulnerability reports, please see [SECURITY.md](SECURITY.md). Do not report security issues through public GitHub issues.
+
+---
+
 ## License
 
-This project is licensed under the **Apache License 2.0**. See individual source files for the `SPDX-License-Identifier: Apache-2.0` headers.
+This project is licensed under the **Apache License 2.0**. See individual source files for the `SPDX-License-Identifier: Apache-2.0` headers or see the full license text in [LICENSE](LICENSE).
+

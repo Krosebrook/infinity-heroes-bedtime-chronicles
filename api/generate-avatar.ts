@@ -1,6 +1,34 @@
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { GoogleGenAI } from '@google/genai';
 
+/**
+ * Generate Avatar API Endpoint
+ * 
+ * Generates hero avatar images using Google Gemini image generation.
+ * 
+ * @param req - Vercel request object
+ * @param req.body.prompt - Text description of hero appearance
+ * @param res - Vercel response object
+ * 
+ * @returns {Promise<void>} JSON response with base64 image data or error
+ * 
+ * @example
+ * POST /api/generate-avatar
+ * {
+ *   "prompt": "A friendly superhero with blue cape..."
+ * }
+ * 
+ * Response:
+ * {
+ *   "mimeType": "image/png",
+ *   "data": "base64_encoded_image_data"
+ * }
+ */
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
