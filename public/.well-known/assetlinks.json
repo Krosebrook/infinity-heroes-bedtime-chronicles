@@ -1,0 +1,8 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.infinityheroes.bedtime",
+    "sha256_cert_fingerprints": ["__SIGNING_KEY_SHA256__"]
+  }
+}]
