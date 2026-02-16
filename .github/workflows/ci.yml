@@ -18,3 +18,32 @@ jobs:
       - run: npm ci
       - run: npx tsc --noEmit
       - run: npm run build
+  
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - name: Run npm audit
+        run: npm audit --audit-level=high
+        continue-on-error: true
+      - name: Check for secrets in code
+        run: |
+          # Basic secret pattern detection
+          if grep -r "AIza[0-9A-Za-z_-]\{35\}" --include="*.ts" --include="*.tsx" --exclude-dir=node_modules .; then
+            echo "⚠️ Potential API key found in code"
+            exit 1
+          fi
+      - name: Verify license headers
+        run: |
+          # Check that all source files have license headers
+          missing=$(find . -name "*.ts" -o -name "*.tsx" | grep -v node_modules | xargs grep -L "SPDX-License-Identifier" || true)
+          if [ -n "$missing" ]; then
+            echo "⚠️ Files missing license headers:"
+            echo "$missing"
+            exit 1
+          fi
