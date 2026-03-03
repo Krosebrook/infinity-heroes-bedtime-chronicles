@@ -1,3 +1,8 @@
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import path from 'path';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';

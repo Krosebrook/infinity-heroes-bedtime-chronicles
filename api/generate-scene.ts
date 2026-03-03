@@ -7,8 +7,34 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { GoogleGenAI } from '@google/genai';
 import { withMiddleware, validateString } from './_middleware';
 
-export default withMiddleware(async (req: VercelRequest, res: VercelResponse) => {
-  const prompt = validateString(req.body.prompt, 1000);
+/**
+ * Generate Scene API Endpoint
+ * 
+ * Generates scene illustrations for story parts using Google Gemini.
+ * 
+ * @param req - Vercel request object
+ * @param req.body.prompt - Scene description from story part
+ * @param res - Vercel response object
+ * 
+ * @returns {Promise<void>} JSON response with base64 image data or error
+ * 
+ * @example
+ * POST /api/generate-scene
+ * {
+ *   "prompt": "A magical forest with glowing trees..."
+ * }
+ * 
+ * Response:
+ * {
+ *   "mimeType": "image/png",
+ *   "data": "base64_encoded_image_data"
+ * }
+ */
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) return res.status(500).json({ error: 'API key not configured' });
 
   if (!prompt) {
     return res.status(400).json({ error: 'Invalid request parameters.' });

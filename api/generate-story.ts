@@ -1,39 +1,40 @@
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { GoogleGenAI } from '@google/genai';
 import { withMiddleware, validateString } from './_middleware';
 
-const STORY_SCHEMA = {
-  type: "OBJECT",
-  properties: {
-    title: { type: "STRING" },
-    parts: {
-      type: "ARRAY",
-      items: {
-        type: "OBJECT",
-        properties: {
-          text: { type: "STRING" },
-          choices: { type: "ARRAY", items: { type: "STRING" } },
-          partIndex: { type: "INTEGER" }
-        },
-        required: ["text", "partIndex"]
-      }
-    },
-    vocabWord: {
-      type: "OBJECT",
-      properties: { word: { type: "STRING" }, definition: { type: "STRING" } },
-      required: ["word", "definition"]
-    },
-    joke: { type: "STRING" },
-    lesson: { type: "STRING" },
-    tomorrowHook: { type: "STRING" },
-    rewardBadge: {
-      type: "OBJECT",
-      properties: { emoji: { type: "STRING" }, title: { type: "STRING" }, description: { type: "STRING" } },
-      required: ["emoji", "title", "description"]
-    }
-  },
-  required: ["title", "parts", "vocabWord", "joke", "lesson", "tomorrowHook", "rewardBadge"]
-};
+/**
+ * Generate Story API Endpoint
+ * 
+ * Generates AI-powered bedtime story content using Google Gemini.
+ * 
+ * @param req - Vercel request object
+ * @param req.body.systemInstruction - System prompt with safety rules and story guidelines
+ * @param req.body.userPrompt - User's story parameters (hero, setting, mode, etc.)
+ * @param req.body.responseSchema - JSON schema for structured story output
+ * @param res - Vercel response object
+ * 
+ * @returns {Promise<void>} JSON response with generated story or error
+ * 
+ * @example
+ * POST /api/generate-story
+ * {
+ *   "systemInstruction": "You are a children's storyteller...",
+ *   "userPrompt": "Write a story about...",
+ *   "responseSchema": { type: "object", properties: {...} }
+ * }
+ * 
+ * Response:
+ * {
+ *   "text": "{\"title\": \"...\", \"parts\": [...]}"
+ * }
+ */
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
 export default withMiddleware(async (req: VercelRequest, res: VercelResponse) => {
   const systemInstruction = validateString(req.body.systemInstruction, 5000);
