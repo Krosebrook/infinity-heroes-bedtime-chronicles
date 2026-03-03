@@ -1,37 +1,41 @@
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { GoogleGenAI, Modality } from '@google/genai';
+import { withMiddleware, validateString, validateStringEnum } from './_middleware';
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
-  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+const ALLOWED_VOICES = ['Puck', 'Charon', 'Kore', 'Fenrir', 'Aoede', 'Zephyr', 'Leda'] as const;
 
-  const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey) return res.status(500).json({ error: 'API key not configured' });
+export default withMiddleware(async (req: VercelRequest, res: VercelResponse) => {
+  const text = validateString(req.body.text, 5000);
+  const voiceName = validateStringEnum(req.body.voiceName, [...ALLOWED_VOICES]) || 'Kore';
 
-  try {
-    const { text, voiceName } = req.body;
-    const ai = new GoogleGenAI({ apiKey });
+  if (!text) {
+    return res.status(400).json({ error: 'Invalid request parameters.' });
+  }
 
-    const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash-preview-tts',
-      contents: [{ parts: [{ text }] }],
-      config: {
-        responseModalities: [Modality.AUDIO],
-        speechConfig: {
-          voiceConfig: {
-            prebuiltVoiceConfig: { voiceName: voiceName || 'Kore' },
-          },
+  const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
+
+  const response = await ai.models.generateContent({
+    model: 'gemini-2.5-flash-preview-tts',
+    contents: [{ parts: [{ text }] }],
+    config: {
+      responseModalities: [Modality.AUDIO],
+      speechConfig: {
+        voiceConfig: {
+          prebuiltVoiceConfig: { voiceName },
         },
       },
-    });
+    },
+  });
 
-    const audioData = response.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
-    if (!audioData) {
-      return res.status(500).json({ error: 'No audio data received' });
-    }
-
-    res.status(200).json({ audioData });
-  } catch (error: any) {
-    console.error('Narration generation error:', error);
-    res.status(error.status || 500).json({ error: error.message || 'Generation failed' });
+  const audioData = response.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
+  if (!audioData) {
+    throw new Error('No audio data received');
   }
-}
+
+  res.status(200).json({ audioData });
+});
