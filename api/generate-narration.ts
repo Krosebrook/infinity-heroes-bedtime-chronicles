@@ -5,6 +5,19 @@
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { GoogleGenAI, Modality } from '@google/genai';
+import { withMiddleware, validateString, validateStringEnum } from './_middleware';
+
+const ALLOWED_VOICES = ['Puck', 'Charon', 'Kore', 'Fenrir', 'Aoede', 'Zephyr', 'Leda'] as const;
+
+export default withMiddleware(async (req: VercelRequest, res: VercelResponse) => {
+  const text = validateString(req.body.text, 5000);
+  const voiceName = validateStringEnum(req.body.voiceName, [...ALLOWED_VOICES]) || 'Kore';
+
+  if (!text) {
+    return res.status(400).json({ error: 'Invalid request parameters.' });
+  }
+
+  const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
 
 /**
  * Generate Narration API Endpoint
@@ -51,16 +64,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           },
         },
       },
-    });
+    },
+  });
 
-    const audioData = response.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
-    if (!audioData) {
-      return res.status(500).json({ error: 'No audio data received' });
-    }
-
-    res.status(200).json({ audioData });
-  } catch (error: any) {
-    console.error('Narration generation error:', error);
-    res.status(error.status || 500).json({ error: error.message || 'Generation failed' });
+  const audioData = response.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
+  if (!audioData) {
+    throw new Error('No audio data received');
   }
-}
+
+  res.status(200).json({ audioData });
+});

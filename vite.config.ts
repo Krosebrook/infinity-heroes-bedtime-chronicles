@@ -12,7 +12,7 @@ import { VitePWA } from 'vite-plugin-pwa';
 export default defineConfig({
   server: {
     port: 3000,
-    host: '0.0.0.0',
+    host: 'localhost',
   },
   plugins: [
     react(),
@@ -21,7 +21,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       manifest: false, // Using existing metadata.json
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+        globPatterns: ['**/*.{js,css,html,ico,woff2}'],
+        maximumFileSizeToCacheInBytes: 2 * 1024 * 1024,
         navigateFallback: '/index.html',
         runtimeCaching: [
           {

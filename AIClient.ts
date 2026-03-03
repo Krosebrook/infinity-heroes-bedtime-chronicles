@@ -92,44 +92,11 @@ export class AIClient {
         ${Object.entries(input.madlibs).map(([k, v]) => `${k.toUpperCase()}: ${v}`).join('\n')}`;
     }
 
-    const storySchema = {
-      type: "OBJECT",
-      properties: {
-        title: { type: "STRING" },
-        parts: {
-          type: "ARRAY",
-          items: {
-            type: "OBJECT",
-            properties: {
-              text: { type: "STRING" },
-              choices: { type: "ARRAY", items: { type: "STRING" } },
-              partIndex: { type: "INTEGER" }
-            },
-            required: ["text", "partIndex"]
-          }
-        },
-        vocabWord: {
-          type: "OBJECT",
-          properties: { word: { type: "STRING" }, definition: { type: "STRING" } },
-          required: ["word", "definition"]
-        },
-        joke: { type: "STRING" },
-        lesson: { type: "STRING" },
-        tomorrowHook: { type: "STRING" },
-        rewardBadge: {
-          type: "OBJECT",
-          properties: { emoji: { type: "STRING" }, title: { type: "STRING" }, description: { type: "STRING" } },
-          required: ["emoji", "title", "description"]
-        }
-      },
-      required: ["title", "parts", "vocabWord", "joke", "lesson", "tomorrowHook", "rewardBadge"]
-    };
-
     return this.retry(async () => {
       const res = await fetch('/api/generate-story', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ systemInstruction, userPrompt, responseSchema: storySchema }),
+        body: JSON.stringify({ systemInstruction, userPrompt }),
       });
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
