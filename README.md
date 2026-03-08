@@ -241,6 +241,31 @@ npm run build
 
 We welcome contributions! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, development workflow, and how to submit pull requests.
 
+New to the project? Start with **[docs/ONBOARDING.md](docs/ONBOARDING.md)** for a step-by-step setup checklist.
+
+---
+
+## Documentation Hub
+
+All project documentation is in the [`docs/`](docs/) folder:
+
+| Document | Description |
+|----------|-------------|
+| [docs/ONBOARDING.md](docs/ONBOARDING.md) | New developer onboarding checklist |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | System architecture reference |
+| [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) | Local development workflow |
+| [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | Deployment guide |
+| [docs/CICD.md](docs/CICD.md) | CI/CD pipeline documentation |
+| [docs/CONFIGURATION.md](docs/CONFIGURATION.md) | Configuration and environment variables |
+| [docs/VERSIONING.md](docs/VERSIONING.md) | Release and versioning policy |
+| [docs/RUNBOOK.md](docs/RUNBOOK.md) | Operational runbook and incident response |
+| [docs/STANDARDS.md](docs/STANDARDS.md) | Coding and documentation standards |
+| [docs/API.md](docs/API.md) | Serverless API reference |
+| [docs/adr/README.md](docs/adr/README.md) | Architecture Decision Records |
+| [docs/DOC_INVENTORY.md](docs/DOC_INVENTORY.md) | Documentation inventory and gap analysis |
+
+Root-level policy documents: [SECURITY.md](SECURITY.md) · [CONTRIBUTING.md](CONTRIBUTING.md) · [TESTING.md](TESTING.md) · [CHANGELOG.md](CHANGELOG.md) · [CODE_QUALITY.md](CODE_QUALITY.md) · [CHILD_SAFETY_COMPLIANCE.md](CHILD_SAFETY_COMPLIANCE.md)
+
 ---
 
 ## Security

@@ -427,3 +427,17 @@ All ambient sounds fade in over 4 seconds and fade out over 2 seconds with expon
 | **vite-plugin-pwa** | 1.2.x | PWA / Service Worker | Automatic service worker generation with Workbox, precaching, runtime caching strategies, offline support |
 | **IndexedDB** | Browser API | Persistent storage | Handles large binary data (images, audio), no size limitations of localStorage, async API avoids blocking UI thread |
 | **Web Audio API** | Browser API | Audio playback + generation | Low-level control for PCM decoding, procedural sound synthesis, gain control, playback rate adjustment, stereo panning |
+
+---
+
+## 10. Architecture Decision Records
+
+Key architectural choices are documented as Architecture Decision Records (ADRs) in [`docs/adr/`](adr/):
+
+| ADR | Decision | Status |
+|-----|----------|--------|
+| [ADR-001](adr/001-spa-serverless-architecture.md) | Single-Page App with Serverless API Proxy (API key never reaches the browser) | Accepted |
+| [ADR-002](adr/002-indexeddb-client-storage.md) | IndexedDB for all client-side persistence (stories, audio, preferences) | Accepted |
+| [ADR-003](adr/003-vercel-deployment-platform.md) | Vercel as deployment platform (SPA + serverless functions, zero ops) | Accepted |
+
+See [`docs/adr/README.md`](adr/README.md) for the full index and instructions on adding new ADRs.
