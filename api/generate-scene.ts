@@ -9,32 +9,29 @@ import { withMiddleware, validateString } from './_middleware';
 
 /**
  * Generate Scene API Endpoint
- * 
+ *
  * Generates scene illustrations for story parts using Google Gemini.
- * 
+ *
  * @param req - Vercel request object
  * @param req.body.prompt - Scene description from story part
  * @param res - Vercel response object
- * 
+ *
  * @returns {Promise<void>} JSON response with base64 image data or error
- * 
+ *
  * @example
  * POST /api/generate-scene
  * {
  *   "prompt": "A magical forest with glowing trees..."
  * }
- * 
+ *
  * Response:
  * {
  *   "mimeType": "image/png",
  *   "data": "base64_encoded_image_data"
  * }
  */
-export default async function handler(req: VercelRequest, res: VercelResponse) {
-  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
-
-  const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey) return res.status(500).json({ error: 'API key not configured' });
+export default withMiddleware(async (req: VercelRequest, res: VercelResponse) => {
+  const prompt = validateString(req.body.prompt, 2000);
 
   if (!prompt) {
     return res.status(400).json({ error: 'Invalid request parameters.' });
@@ -43,17 +40,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
 
   const response = await ai.models.generateContent({
-    model: 'gemini-2.5-flash-image',
+    model: 'gemini-2.0-flash-preview-image-generation',
     contents: { parts: [{ text: prompt }] },
   });
 
-  const part = response.candidates?.[0]?.content?.parts.find((p: any) => p.inlineData);
+  const part = response.candidates?.[0]?.content?.parts.find((p: { inlineData?: unknown }) => p.inlineData);
   if (!part?.inlineData) {
     throw new Error('No image data received');
   }
 
   res.status(200).json({
-    mimeType: part.inlineData.mimeType,
-    data: part.inlineData.data,
+    mimeType: (part.inlineData as { mimeType: string; data: string }).mimeType,
+    data: (part.inlineData as { mimeType: string; data: string }).data,
   });
 });

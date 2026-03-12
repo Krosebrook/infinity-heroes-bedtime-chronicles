@@ -477,8 +477,8 @@ class SoundManager {
           this.activeLFOs = [];
 
           setTimeout(() => {
-              sources.forEach(s => { if (s) try { s.stop(); } catch(e) {} });
-              lfos.forEach(l => { if (l) try { l.stop(); } catch(e) {} });
+              sources.forEach(s => { if (s) try { s.stop(); } catch(_e) { /* already stopped */ } });
+              lfos.forEach(l => { if (l) try { l.stop(); } catch(_e) { /* already stopped */ } });
           }, 2100);
           
           this.ambientSource = null;

@@ -3,61 +3,56 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export default {
-  root: true,
-  env: {
-    browser: true,
-    es2022: true,
-    node: true
+import js from '@eslint/js';
+import tseslint from 'typescript-eslint';
+import reactHooks from 'eslint-plugin-react-hooks';
+import reactRefresh from 'eslint-plugin-react-refresh';
+import globals from 'globals';
+
+export default tseslint.config(
+  { ignores: ['dist', 'node_modules', '.vercel'] },
+  {
+    extends: [js.configs.recommended, ...tseslint.configs.recommended],
+    files: ['**/*.{ts,tsx}'],
+    languageOptions: {
+      ecmaVersion: 2022,
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+      },
+    },
+    plugins: {
+      'react-hooks': reactHooks,
+      'react-refresh': reactRefresh,
+    },
+    rules: {
+      // React Hooks
+      ...reactHooks.configs.recommended.rules,
+      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+
+      // TypeScript specific
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-unused-vars': ['warn', {
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        caughtErrorsIgnorePattern: '^_',
+      }],
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      '@typescript-eslint/explicit-module-boundary-types': 'off',
+      '@typescript-eslint/no-non-null-assertion': 'warn',
+
+      // General code quality
+      'no-console': ['warn', { allow: ['warn', 'error'] }],
+      'no-debugger': 'warn',
+      'prefer-const': 'error',
+      'no-var': 'error',
+      'eqeqeq': ['error', 'always'],
+
+      // Child safety - prevent dangerous patterns
+      'no-eval': 'error',
+      'no-implied-eval': 'error',
+      'no-new-func': 'error',
+      'no-script-url': 'error',
+    },
   },
-  extends: [
-    'eslint:recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:react/recommended',
-    'plugin:react-hooks/recommended'
-  ],
-  ignorePatterns: ['dist', 'node_modules', '.vercel'],
-  parser: '@typescript-eslint/parser',
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    ecmaFeatures: {
-      jsx: true
-    }
-  },
-  plugins: ['react-refresh', '@typescript-eslint', 'react'],
-  settings: {
-    react: {
-      version: '19.2'
-    }
-  },
-  rules: {
-    // React specific
-    'react/react-in-jsx-scope': 'off', // Not needed in React 19
-    'react/prop-types': 'off', // Using TypeScript
-    'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
-    
-    // TypeScript specific
-    '@typescript-eslint/no-explicit-any': 'warn',
-    '@typescript-eslint/no-unused-vars': ['warn', { 
-      argsIgnorePattern: '^_',
-      varsIgnorePattern: '^_'
-    }],
-    '@typescript-eslint/explicit-function-return-type': 'off',
-    '@typescript-eslint/explicit-module-boundary-types': 'off',
-    '@typescript-eslint/no-non-null-assertion': 'warn',
-    
-    // General code quality
-    'no-console': ['warn', { allow: ['warn', 'error'] }],
-    'no-debugger': 'warn',
-    'prefer-const': 'error',
-    'no-var': 'error',
-    'eqeqeq': ['error', 'always'],
-    
-    // Child safety - prevent dangerous patterns
-    'no-eval': 'error',
-    'no-implied-eval': 'error',
-    'no-new-func': 'error',
-    'no-script-url': 'error'
-  }
-};
+);

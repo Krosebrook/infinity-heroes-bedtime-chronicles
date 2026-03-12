@@ -16,7 +16,7 @@ interface MadlibsSetupProps {
     onGenerateAvatar: () => void;
 }
 
-export const MadlibsSetup: React.FC<MadlibsSetupProps> = ({ input, handleMadLibChange, onChange, isAvatarLoading, onGenerateAvatar }) => {
+export const MadlibsSetup: React.FC<MadlibsSetupProps> = ({ input, handleMadLibChange, onChange: _onChange, isAvatarLoading, onGenerateAvatar }) => {
     return (
         <div className="font-serif text-lg md:text-2xl leading-relaxed text-center py-4 md:py-6 max-w-2xl mx-auto animate-in zoom-in duration-500">
             

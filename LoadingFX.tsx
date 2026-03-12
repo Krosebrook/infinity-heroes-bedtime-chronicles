@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
 */
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AppMode } from './types';
 
@@ -37,6 +37,28 @@ const LOADING_STEPS_MADLIBS = [
     "Launching Logic out the Window..."
 ];
 
+// Pre-generated background particles per mode – static per session to keep rendering pure
+function buildParticles(count: number, isSleep: boolean, isMadlibs: boolean) {
+    const madlibsColors = ['#FCD34D', '#EF4444', '#60A5FA', '#A78BFA', '#34D399'];
+    return Array.from({ length: count }).map((_, i) => ({
+        id: i,
+        left: `${(i * 137.508) % 100}%`,
+        top: `${(i * 97.3) % 100}%`,
+        size: isSleep ? 0.5 + (i % 5) * 0.3 : 1 + (i % 8) * 0.4,
+        color: isMadlibs ? madlibsColors[i % madlibsColors.length] : '#FFFFFF',
+        delay: (i % 10) * 0.5,
+        duration: isSleep ? 3 + (i % 5) * 0.6 : 0.5 + (i % 6) * 0.2,
+        jitterX: isMadlibs ? ((i % 10) - 5) * 10 : 0,
+        jitterY: isMadlibs ? ((i % 7) - 3) * 10 : 0,
+    }));
+}
+
+const PARTICLES_BY_MODE = {
+    sleep: buildParticles(100, true, false),
+    madlibs: buildParticles(50, false, true),
+    classic: buildParticles(60, false, false),
+};
+
 interface LoadingFXProps {
     embedded?: boolean;
     mode?: AppMode;
@@ -47,22 +69,9 @@ export const LoadingFX: React.FC<LoadingFXProps> = ({ embedded = false, mode = '
     const [particles, setParticles] = useState<{id: number, text: string, x: string, y: string, rot: number, color: string}[]>([]);
     const [stepIndex, setStepIndex] = useState(0);
     const [progress, setProgress] = useState(0);
-    
-    // Generate background stars/dust based on mode
-    const backgroundParticles = useMemo(() => {
-        const count = mode === 'sleep' ? 100 : (mode === 'madlibs' ? 50 : 60);
-        return Array.from({ length: count }).map((_, i) => ({
-            id: i,
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-            size: mode === 'sleep' ? Math.random() * 2 + 0.5 : Math.random() * 4 + 1,
-            color: mode === 'madlibs' 
-                ? ['#FCD34D', '#EF4444', '#60A5FA', '#A78BFA', '#34D399'][Math.floor(Math.random() * 5)] 
-                : '#FFFFFF',
-            delay: Math.random() * 5,
-            duration: mode === 'sleep' ? Math.random() * 3 + 3 : Math.random() * 1.5 + 0.5
-        }));
-    }, [mode]);
+
+    // Use pre-generated background particles for the current mode
+    const backgroundParticles = PARTICLES_BY_MODE[mode];
 
     useEffect(() => {
         // Dynamic Word Particles (Foreground)
@@ -156,8 +165,8 @@ export const LoadingFX: React.FC<LoadingFXProps> = ({ embedded = false, mode = '
                         madlibs: {
                             opacity: [0, 1, 0],
                             scale: [0, 1.5, 0],
-                            x: [0, Math.random() * 100 - 50], // Chaotic jitter
-                            y: [0, Math.random() * 100 - 50],
+                            x: [0, p.jitterX], // Chaotic jitter (pre-computed per-particle)
+                            y: [0, p.jitterY],
                             rotate: [0, 360]
                         }
                     };

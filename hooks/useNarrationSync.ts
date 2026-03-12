@@ -44,7 +44,8 @@ export const useNarrationSync = (isNarrating: boolean) => {
         if (isNarrating) {
             rafId = requestAnimationFrame(updateTime);
         } else {
-            // Reset to 0 when narration stops to ensure UI reflects "stopped" state
+            // Reset to 0 when narration stops so the UI reflects the "stopped" state.
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setNarrationTime(0);
         }
 

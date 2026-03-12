@@ -70,7 +70,7 @@ export const useStoryEngine = (validateApiKey: () => Promise<boolean>, setShowAp
                 const hist = await storageManager.getAllStories();
                 setHistory(hist);
             } catch (e) {
-                console.error("Failed to load data", e);
+                logger.error("Failed to load data", e);
             }
         };
 
@@ -153,11 +153,11 @@ export const useStoryEngine = (validateApiKey: () => Promise<boolean>, setShowAp
                 
                 // Preload with autoPlay = false
                 narrationManager.fetchNarration(nextText, input.narratorVoice, false)
-                    .catch(err => console.warn("Preload failed", err));
+                    .catch(err => logger.warn("Preload failed", err));
             }
 
         } catch (e) {
-            console.error(e);
+            logger.error("Narration playback failed", e);
         } finally {
             setIsNarrationLoading(false);
         }
@@ -335,7 +335,7 @@ export const useStoryEngine = (validateApiKey: () => Promise<boolean>, setShowAp
         setError(null);
     }, [handleInputChange]);
 
-    const handleChoice = useCallback((choice: string) => {
+    const handleChoice = useCallback((_choice: string) => {
         soundManager.playChoice();
         stopNarration();
         if (currentPartIndex < (story?.parts.length || 0) - 1) {

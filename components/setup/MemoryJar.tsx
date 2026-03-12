@@ -7,6 +7,7 @@ import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CachedStory } from '../../lib/StorageManager';
 import { soundManager } from '../../SoundManager';
+import { logger } from '../../lib/Logger';
 
 interface MemoryJarProps {
     isOpen: boolean;
@@ -46,7 +47,7 @@ export const MemoryJar: React.FC<MemoryJarProps> = ({ isOpen, onClose, history, 
                     text: `I just created a story called "${story.story.title}" with Infinity Heroes!`,
                 });
             } catch (err) {
-                console.log("Share cancelled or failed", err);
+                logger.warn("Share cancelled or failed", err);
             }
         } else {
             // Fallback: Copy title to clipboard
