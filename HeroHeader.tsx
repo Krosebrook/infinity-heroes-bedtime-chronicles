@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
 */
 
-import React, { useRef, useMemo } from 'react';
+import React, { useRef } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { AppMode } from './types';
 import { soundManager } from './SoundManager';
@@ -21,6 +21,16 @@ const MODES: { id: AppMode; label: string; icon: string; color: string; tagline:
     { id: 'sleep', label: 'Sleepy', icon: '🌙', color: 'bg-indigo-600', tagline: 'Drift Into Dreams' }
 ];
 
+// Pre-generated star positions for sleep mode – static per session to keep rendering pure
+const STARS = Array.from({ length: 60 }).map((_, i) => ({
+    id: i,
+    left: (i * 137.508) % 100,          // golden-angle distribution
+    top: (i * 97.3) % 100,
+    size: 1 + (i % 3) * 0.5,
+    duration: 2 + (i % 5) * 0.4,
+    delay: (i % 10) * 0.2,
+}));
+
 export const HeroHeader: React.FC<HeroHeaderProps> = ({ activeMode, onModeChange, onImageUpload }) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -33,17 +43,8 @@ export const HeroHeader: React.FC<HeroHeaderProps> = ({ activeMode, onModeChange
 
     const activeConfig = MODES.find(m => m.id === activeMode) || MODES[0];
 
-    // Generate stars for sleep mode
-    const stars = useMemo(() => {
-        return Array.from({ length: 60 }).map((_, i) => ({
-            id: i,
-            left: Math.random() * 100,
-            top: Math.random() * 100,
-            size: Math.random() * 2 + 1,
-            duration: Math.random() * 2 + 2,
-            delay: Math.random() * 2
-        }));
-    }, []);
+    // Stable star positions from module-level constant
+    const stars = STARS;
 
     const getBgGradient = () => {
         switch(activeMode) {

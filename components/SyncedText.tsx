@@ -28,33 +28,47 @@ export const SyncedText = memo(({ text, isActive, currentTime, duration }: Synce
         return <p className="leading-relaxed font-serif text-gray-800">{text}</p>;
     }
 
-    let globalCharOffset = 0;
+    // Pre-compute character offsets for each sentence to avoid mutable accumulator in render
+    const sentenceData = sentenceMatches.reduce<Array<{
+        sentence: string;
+        startChar: number;
+        endChar: number;
+    }>>((acc, sentence) => {
+        const prev = acc[acc.length - 1];
+        const startChar = prev ? prev.endChar : 0;
+        return [...acc, { sentence, startChar, endChar: startChar + sentence.length }];
+    }, []);
 
     return (
         <p className="leading-relaxed font-serif text-gray-800">
-            {sentenceMatches.map((sentence, sIdx) => {
-                const sentenceLength = sentence.length;
-                const sentStartTime = (globalCharOffset / totalChars) * duration;
-                const sentEndTime = ((globalCharOffset + sentenceLength) / totalChars) * duration;
+            {sentenceData.map(({ sentence, startChar, endChar }, sIdx) => {
+                const sentStartTime = (startChar / totalChars) * duration;
+                const sentEndTime = (endChar / totalChars) * duration;
                 
                 const isSentenceActive = currentTime >= sentStartTime && currentTime < sentEndTime;
                 
                 // Words within the sentence
                 const words = sentence.split(/(\s+)/);
-                let localCharOffset = 0;
+
+                const wordData = words.reduce<Array<{
+                    word: string;
+                    wIdx: number;
+                    absStartChar: number;
+                }>>((acc, word, wIdx) => {
+                    const prev = acc[acc.length - 1];
+                    const absStartChar = prev ? prev.absStartChar + prev.word.length : startChar;
+                    return [...acc, { word, wIdx, absStartChar }];
+                }, []);
 
                 const sentenceElem = (
                     <span 
                         key={sIdx} 
                         className={`transition-colors duration-500 ${isSentenceActive ? 'bg-yellow-100/30 rounded px-1 -mx-1' : ''}`}
                     >
-                        {words.map((word, wIdx) => {
+                        {wordData.map(({ word, wIdx, absStartChar }) => {
                             const wordLength = word.length;
-                            const absStartChar = globalCharOffset + localCharOffset;
                             const wordStartTime = (absStartChar / totalChars) * duration;
                             const wordEndTime = ((absStartChar + wordLength) / totalChars) * duration;
-                            
-                            localCharOffset += wordLength;
                             
                             const isWordActive = currentTime >= wordStartTime && currentTime < wordEndTime;
 
@@ -63,10 +77,10 @@ export const SyncedText = memo(({ text, isActive, currentTime, duration }: Synce
                                     key={`${sIdx}-${wIdx}-${word}`} 
                                     initial={false}
                                     animate={{ 
-                                        color: isWordActive ? '#2563eb' : (isSentenceActive ? '#1e3a8a' : '#1f2937'), // Blue vs Dark Blue vs Gray
+                                        color: isWordActive ? '#2563eb' : (isSentenceActive ? '#1e3a8a' : '#1f2937'),
                                         scale: isWordActive ? 1.05 : 1,
                                         textShadow: isWordActive ? "0px 0px 8px rgba(37,99,235,0.2)" : "none",
-                                        opacity: isSentenceActive || !isActive ? 1 : 0.7 // Dim non-active sentences slightly
+                                        opacity: isSentenceActive || !isActive ? 1 : 0.7
                                     }}
                                     transition={{ duration: 0.1 }}
                                     className={`inline-block whitespace-pre ${isWordActive ? 'font-bold relative z-10' : ''}`}
@@ -78,7 +92,6 @@ export const SyncedText = memo(({ text, isActive, currentTime, duration }: Synce
                     </span>
                 );
 
-                globalCharOffset += sentenceLength;
                 return sentenceElem;
             })}
         </p>

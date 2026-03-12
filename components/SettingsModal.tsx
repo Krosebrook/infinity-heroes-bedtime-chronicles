@@ -24,13 +24,14 @@ const CATEGORIES = [
     { id: 'accessibility', label: 'Accessibility', icon: '👁️' }
 ];
 
-export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, currentPrefs, onSave, onReset }) => {
+export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, currentPrefs, onSave, onReset: _onReset }) => {
     const [activeTab, setActiveTab] = useState('general');
     const [prefs, setPrefs] = useState<UserPreferences>(currentPrefs);
     const [showSuccess, setShowSuccess] = useState(false);
 
-    // Sync state when opening
+    // Sync local state when the modal opens with latest preferences from parent
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         if (isOpen) setPrefs(currentPrefs);
     }, [isOpen, currentPrefs]);
 

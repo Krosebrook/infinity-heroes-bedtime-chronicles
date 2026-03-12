@@ -4,6 +4,7 @@
  */
 
 import { StoryState, StoryFull } from "./types";
+import { logger } from "./lib/Logger";
 
 export class AIClient {
   private static async retry<T>(fn: () => Promise<T>, retries = 3, delay = 1000): Promise<T> {
@@ -12,7 +13,7 @@ export class AIClient {
     } catch (error: any) {
       if (retries <= 0) throw error;
       if (error.status >= 400 && error.status < 500 && error.status !== 429) throw error;
-      console.warn(`API Call failed, retrying in ${delay}ms...`, error);
+      logger.warn(`API Call failed, retrying in ${delay}ms...`, error);
       await new Promise(res => setTimeout(res, delay));
       return this.retry(fn, retries - 1, delay * 2);
     }

@@ -4,6 +4,7 @@
 */
 
 import { storageManager } from "./lib/StorageManager";
+import { logger } from "./lib/Logger";
 
 /**
  * Singleton class managing Text-to-Speech generation and playback.
@@ -132,7 +133,7 @@ export class NarrationManager {
             return;
         }
     } catch (e) {
-        console.warn("Offline audio cache miss", e);
+        logger.warn("Offline audio cache miss", e);
     }
 
     // 3. Fetch from API proxy
@@ -152,14 +153,14 @@ export class NarrationManager {
       const base64Audio = data.audioData;
       if (base64Audio) {
         const bytes = this.decode(base64Audio);
-        storageManager.saveAudio(cacheKey, bytes.buffer as ArrayBuffer).catch(err => console.error("Save audio failed", err));
+        storageManager.saveAudio(cacheKey, bytes.buffer as ArrayBuffer).catch(err => logger.error("Save audio failed", err));
         const buffer = await this.decodeAudioData(bytes, this.audioCtx!);
         this.memoryCache.set(cacheKey, buffer);
         this.currentBuffer = buffer;
         if (autoPlay) this.play();
       }
     } catch (error) {
-      console.error("TTS synthesis failed", error);
+      logger.error("TTS synthesis failed", error);
     }
   }
 
@@ -208,7 +209,7 @@ export class NarrationManager {
   stop() {
     if (this.source) {
       this.source.onended = null;
-      try { this.source.stop(); } catch (e) {}
+      try { this.source.stop(); } catch (_e) { /* already stopped */ }
       this.source = null;
     }
     if (!this.isPaused) {

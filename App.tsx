@@ -4,11 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
 */
 
-import React, { useState, Suspense, lazy } from 'react';
+import React, { useState, Suspense, lazy, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ApiKeyDialog } from './ApiKeyDialog';
 import { LoadingFX } from './LoadingFX';
-import { soundManager } from './SoundManager';
 import { useApiKey } from './useApiKey';
 import { useStoryEngine } from './hooks/useStoryEngine';
 import { useNarrationSync } from './hooks/useNarrationSync';
@@ -66,11 +65,9 @@ const App: React.FC = () => {
     const { narrationTime, narrationDuration, playbackRate, setPlaybackRate } = useNarrationSync(isNarrating);
 
     // Apply reduced motion globally if preferred
-    if (userPreferences.reducedMotion) {
-        document.documentElement.style.scrollBehavior = 'auto';
-    } else {
-        document.documentElement.style.scrollBehavior = 'smooth';
-    }
+    useEffect(() => {
+        document.documentElement.style.scrollBehavior = userPreferences.reducedMotion ? 'auto' : 'smooth';
+    }, [userPreferences.reducedMotion]);
 
     return (
         <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center font-comic selection:bg-yellow-200 overflow-hidden">
