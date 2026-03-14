@@ -136,7 +136,7 @@ All code must comply with COPPA. The following are **hard requirements**, not su
 | No external navigation links | No `<a href>` pointing outside the app |
 | Age-appropriate AI content | System prompt must include child-safety guardrails |
 
-See [`CHILD_SAFETY_COMPLIANCE.md`](../CHILD_SAFETY_COMPLIANCE.md) for full compliance documentation.
+See [`CHILD_SAFETY_COMPLIANCE.md`](../compliance/CHILD_SAFETY_COMPLIANCE.md) for full compliance documentation.
 
 ---
 
@@ -216,7 +216,7 @@ Every PR must satisfy these before merging:
 ### Documentation
 - [ ] `CHANGELOG.md` `[Unreleased]` section updated (if user-visible change)
 - [ ] Relevant docs in `docs/` updated (if architecture or API changed)
-- [ ] New env vars added to `docs/CONFIGURATION.md`
+- [ ] New env vars added to `docs/development/CONFIGURATION.md`
 
 ---
 
@@ -230,7 +230,7 @@ Every PR must satisfy these before merging:
 | Tables | Use for comparisons, option lists, and reference material |
 | Code blocks | Use fenced code blocks with language identifier (` ```typescript `, ` ```bash `, etc.) |
 | Prose length | Keep paragraphs short (3–5 sentences max); use bullet lists for steps |
-| Links | Use relative Markdown links within the repository (`[RUNBOOK](docs/RUNBOOK.md)`) |
+| Links | Use relative Markdown links within the repository (`[RUNBOOK](../operations/RUNBOOK.md)`) |
 | Staleness | Update docs in the same PR as the related code change |
 
 ---

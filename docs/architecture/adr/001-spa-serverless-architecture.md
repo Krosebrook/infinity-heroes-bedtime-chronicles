@@ -50,9 +50,9 @@ Browser SPA  →  POST /api/generate-story  →  Vercel Function  →  Gemini AP
 
 ## References
 
-- [`api/generate-story.ts`](../../api/generate-story.ts)
-- [`AIClient.ts`](../../AIClient.ts)
+- [`api/generate-story.ts`](../../../api/generate-story.ts)
+- [`AIClient.ts`](../../../AIClient.ts)
 - [Vercel Functions documentation](https://vercel.com/docs/functions)
-- [`SECURITY.md`](../../SECURITY.md) — API key protection section
+- [`SECURITY.md`](../../../SECURITY.md) — API key protection section
 
 SPDX-License-Identifier: Apache-2.0

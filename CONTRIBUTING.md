@@ -458,7 +458,7 @@ components/
   ```
 - Document component props with an `interface` that includes descriptive property names.
 - Keep inline comments concise and focused on **why**, not **what**.
-- Reference the existing architecture documentation in `ARCHITECTURE.md` and `GEMINI_INTEGRATION.md` when relevant.
+- Reference the existing architecture documentation in `docs/architecture/TECHNICAL_COMPONENTS.md` and `docs/architecture/GEMINI_INTEGRATION.md` when relevant.
 
 ---
 
@@ -560,7 +560,7 @@ If you discover a security vulnerability, please report it responsibly:
 - Use environment variables (`process.env.GEMINI_API_KEY`) for all sensitive values.
 - Validate and sanitize all user input, especially text that gets sent to AI APIs.
 - Review the Content Security Policy in `vercel.json` before adding new external resources.
-- Be mindful of the `CHILD_SAFETY_COMPLIANCE.md` guidelines when contributing content or features.
+- Be mindful of the `docs/compliance/CHILD_SAFETY_COMPLIANCE.md` guidelines when contributing content or features.
 
 ---
 

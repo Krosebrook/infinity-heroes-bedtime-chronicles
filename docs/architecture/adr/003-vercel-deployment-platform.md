@@ -55,9 +55,9 @@ Configuration lives in `vercel.json` (security headers and route rules).
 
 ## References
 
-- [`vercel.json`](../../vercel.json)
-- [`docs/DEPLOYMENT.md`](../DEPLOYMENT.md)
-- [`docs/CICD.md`](../CICD.md)
+- [`vercel.json`](../../../vercel.json)
+- [`docs/operations/DEPLOYMENT.md`](../../operations/DEPLOYMENT.md)
+- [`docs/operations/CICD.md`](../../operations/CICD.md)
 - [Vercel documentation](https://vercel.com/docs)
 
 SPDX-License-Identifier: Apache-2.0
