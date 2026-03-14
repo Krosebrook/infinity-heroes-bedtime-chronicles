@@ -114,7 +114,7 @@ Security headers are declared in `vercel.json` and applied at the Vercel CDN lay
 
 To allow an additional external resource (e.g., a new font provider), add it to the appropriate CSP directive in `vercel.json`. Document the rationale in a comment within the PR.
 
-See [`SECURITY.md`](../SECURITY.md) for the full list of enforced headers and their rationale.
+See [`SECURITY.md`](../../SECURITY.md) for the full list of enforced headers and their rationale.
 
 ---
 
@@ -162,6 +162,6 @@ Update `metadata.json` and the `<link rel="manifest">` tag in `index.html` when 
 
 ---
 
-*See also: [`docs/DEPLOYMENT.md`](DEPLOYMENT.md) for deployment-time configuration and [`docs/RUNBOOK.md`](RUNBOOK.md) for production operations.*
+*See also: [`docs/operations/DEPLOYMENT.md`](../operations/DEPLOYMENT.md) for deployment-time configuration and [`docs/operations/RUNBOOK.md`](../operations/RUNBOOK.md) for production operations.*
 
 SPDX-License-Identifier: Apache-2.0

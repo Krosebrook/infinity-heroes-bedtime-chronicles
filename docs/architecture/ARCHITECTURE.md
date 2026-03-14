@@ -440,4 +440,4 @@ Key architectural choices are documented as Architecture Decision Records (ADRs)
 | [ADR-002](adr/002-indexeddb-client-storage.md) | IndexedDB for all client-side persistence (stories, audio, preferences) | Accepted |
 | [ADR-003](adr/003-vercel-deployment-platform.md) | Vercel as deployment platform (SPA + serverless functions, zero ops) | Accepted |
 
-See [`docs/adr/README.md`](adr/README.md) for the full index and instructions on adding new ADRs.
+See [`docs/architecture/adr/README.md`](adr/README.md) for the full index and instructions on adding new ADRs.

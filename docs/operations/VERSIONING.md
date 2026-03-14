@@ -173,6 +173,6 @@ For critical bugs or security issues in production that cannot wait for the norm
 
 ---
 
-*See also: [`CHANGELOG.md`](../CHANGELOG.md) for the full release history.*
+*See also: [`CHANGELOG.md`](../../CHANGELOG.md) for the full release history.*
 
 SPDX-License-Identifier: Apache-2.0

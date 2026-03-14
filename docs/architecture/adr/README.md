@@ -25,7 +25,7 @@ This folder contains Architecture Decision Records for **Infinity Heroes: Bedtim
 
 ## How to Add a New ADR
 
-1. Copy the template below into a new file `docs/adr/NNN-short-title.md` (next sequential number).
+1. Copy the template below into a new file `docs/architecture/adr/NNN-short-title.md` (next sequential number).
 2. Fill in all sections.
 3. Add an entry to the index table above.
 4. Submit as part of the PR that implements the decision (or immediately after).

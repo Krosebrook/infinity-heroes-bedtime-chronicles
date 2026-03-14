@@ -58,8 +58,8 @@ Closes #<!-- issue number -->
 
 - [ ] `CHANGELOG.md` → `[Unreleased]` section updated (for user-visible changes)
 - [ ] Relevant docs in `docs/` updated (for architecture or API changes)
-- [ ] New env vars or config options added to `docs/CONFIGURATION.md`
-- [ ] New architecture decisions recorded in `docs/adr/`
+- [ ] New env vars or config options added to `docs/development/CONFIGURATION.md`
+- [ ] New architecture decisions recorded in `docs/architecture/adr/`
 
 ---
 

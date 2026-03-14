@@ -58,9 +58,9 @@ The current schema version is `4`, with a versioned migration path via `onupgrad
 
 ## References
 
-- [`lib/StorageManager.ts`](../../lib/StorageManager.ts)
-- [`ARCHITECTURE.md`](../../ARCHITECTURE.md) — Persistence Layer section
+- [`lib/StorageManager.ts`](../../../lib/StorageManager.ts)
+- [`ARCHITECTURE.md`](../ARCHITECTURE.md) — Persistence Layer section
 - [MDN IndexedDB API](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API)
-- [`CHILD_SAFETY_COMPLIANCE.md`](../../CHILD_SAFETY_COMPLIANCE.md)
+- [`CHILD_SAFETY_COMPLIANCE.md`](../../compliance/CHILD_SAFETY_COMPLIANCE.md)
 
 SPDX-License-Identifier: Apache-2.0

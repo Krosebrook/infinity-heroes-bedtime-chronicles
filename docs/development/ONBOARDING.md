@@ -105,16 +105,16 @@ npm run lint:fix
 
 Work through these docs in order — each builds on the previous:
 
-- [ ] [`README.md`](../README.md) — Project overview, tech stack, quick-start
-- [ ] [`ARCHITECTURE.md`](../ARCHITECTURE.md) — System design and module responsibilities
-- [ ] [`docs/DEVELOPMENT.md`](DEVELOPMENT.md) — Local dev workflow, patterns, and tips
-- [ ] [`CODE_QUALITY.md`](../CODE_QUALITY.md) — TypeScript conventions, React patterns, naming rules
-- [ ] [`docs/STANDARDS.md`](STANDARDS.md) — Consolidated coding standards checklist
-- [ ] [`SECURITY.md`](../SECURITY.md) — Security policy and COPPA compliance overview
-- [ ] [`CHILD_SAFETY_COMPLIANCE.md`](../CHILD_SAFETY_COMPLIANCE.md) — Age-appropriate content requirements
-- [ ] [`CONTRIBUTING.md`](../CONTRIBUTING.md) — Branching, PRs, code-review process
-- [ ] [`docs/API.md`](API.md) — Serverless endpoint contracts
-- [ ] [`TESTING.md`](../TESTING.md) — Testing strategy (no framework yet; read to understand future intent)
+- [ ] [`README.md`](../../README.md) — Project overview, tech stack, quick-start
+- [ ] [`ARCHITECTURE.md`](../architecture/ARCHITECTURE.md) — System design and module responsibilities
+- [ ] [`docs/development/DEVELOPMENT.md`](DEVELOPMENT.md) — Local dev workflow, patterns, and tips
+- [ ] [`CODE_QUALITY.md`](CODE_QUALITY.md) — TypeScript conventions, React patterns, naming rules
+- [ ] [`docs/development/STANDARDS.md`](STANDARDS.md) — Consolidated coding standards checklist
+- [ ] [`SECURITY.md`](../../SECURITY.md) — Security policy and COPPA compliance overview
+- [ ] [`CHILD_SAFETY_COMPLIANCE.md`](../compliance/CHILD_SAFETY_COMPLIANCE.md) — Age-appropriate content requirements
+- [ ] [`CONTRIBUTING.md`](../../CONTRIBUTING.md) — Branching, PRs, code-review process
+- [ ] [`docs/architecture/API.md`](../architecture/API.md) — Serverless endpoint contracts
+- [ ] [`TESTING.md`](../testing/TESTING.md) — Testing strategy (no framework yet; read to understand future intent)
 
 ---
 
@@ -184,9 +184,9 @@ chore/<short-description>    # Tooling / housekeeping
 - [ ] All source files have `SPDX-License-Identifier: Apache-2.0` header
 - [ ] No hardcoded secrets or API keys
 - [ ] COPPA guidelines maintained (no analytics, PII, external links)
-- [ ] PR description uses the [pull request template](../.github/pull_request_template.md)
+- [ ] PR description uses the [pull request template](../../.github/pull_request_template.md)
 
-See [`CONTRIBUTING.md`](../CONTRIBUTING.md) for the full contributing workflow.
+See [`CONTRIBUTING.md`](../../CONTRIBUTING.md) for the full contributing workflow.
 
 ---
 
@@ -196,10 +196,10 @@ All project documentation lives in two locations:
 
 | Location | Contents |
 |----------|---------|
-| Root level (`/*.md`) | Policy & process docs: SECURITY, CONTRIBUTING, TESTING, CHANGELOG, etc. |
-| `docs/` folder | Technical reference: ARCHITECTURE, API, DEPLOYMENT, COMPONENTS, CICD, RUNBOOK, etc. |
+| Root level (`/*.md`) | Policy & process docs: SECURITY, CONTRIBUTING, CHANGELOG |
+| `docs/` subfolders | Technical reference: architecture, development, operations, features, ux, testing, compliance, reference |
 
-A full inventory with completeness ratings is in [`docs/DOC_INVENTORY.md`](DOC_INVENTORY.md).
+A full inventory with completeness ratings is in [`docs/reference/DOC_INVENTORY.md`](../reference/DOC_INVENTORY.md).
 
 ---
 
@@ -207,7 +207,7 @@ A full inventory with completeness ratings is in [`docs/DOC_INVENTORY.md`](DOC_I
 
 | Topic | Contact |
 |-------|---------|
-| Security vulnerability | See [`SECURITY.md`](../SECURITY.md) — email only, do NOT use public issues |
+| Security vulnerability | See [`SECURITY.md`](../../SECURITY.md) — email only, do NOT use public issues |
 | Bug reports | [GitHub Issues](https://github.com/Krosebrook/infinity-heroes-bedtime-chronicles/issues) using the bug report template |
 | Feature ideas | [GitHub Issues](https://github.com/Krosebrook/infinity-heroes-bedtime-chronicles/issues) using the feature request template |
 | General questions | GitHub Discussions (if enabled) or issue comments |

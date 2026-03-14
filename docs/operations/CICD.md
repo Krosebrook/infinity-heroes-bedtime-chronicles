@@ -228,6 +228,6 @@ Configure these in **GitHub → Settings → Branches → Add rule** for `main`:
 
 ---
 
-*See also: [`docs/RUNBOOK.md`](RUNBOOK.md) for deployment and incident response procedures.*
+*See also: [`docs/operations/RUNBOOK.md`](RUNBOOK.md) for deployment and incident response procedures.*
 
 SPDX-License-Identifier: Apache-2.0
