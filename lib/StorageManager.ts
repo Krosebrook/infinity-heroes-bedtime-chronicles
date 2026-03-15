@@ -30,7 +30,7 @@ export interface CachedStory {
  * StorageManager
  * Handles persistence of AI-generated content to IndexedDB for offline reading.
  */
-class StorageManager {
+export class StorageManager {
   private db: IDBDatabase | null = null;
 
   async init(): Promise<void> {
