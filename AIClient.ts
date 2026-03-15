@@ -100,7 +100,7 @@ export class AIClient {
         body: JSON.stringify({ systemInstruction, userPrompt }),
       });
       if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
+        const err = await res.json().catch(e => { logger.warn('Failed to parse story error response', e); return {}; });
         throw Object.assign(new Error(err.error || 'Story generation failed'), { status: res.status });
       }
       const data = await res.json();
@@ -127,7 +127,7 @@ export class AIClient {
         body: JSON.stringify({ prompt }),
       });
       if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
+        const err = await res.json().catch(e => { logger.warn('Failed to parse avatar error response', e); return {}; });
         throw Object.assign(new Error(err.error || 'Avatar generation failed'), { status: res.status });
       }
       const data = await res.json();
@@ -144,7 +144,7 @@ export class AIClient {
         body: JSON.stringify({ prompt }),
       });
       if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
+        const err = await res.json().catch(e => { logger.warn('Failed to parse scene error response', e); return {}; });
         throw Object.assign(new Error(err.error || 'Scene generation failed'), { status: res.status });
       }
       const data = await res.json();

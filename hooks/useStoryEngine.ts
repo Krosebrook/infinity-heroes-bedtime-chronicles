@@ -11,6 +11,7 @@ import { narrationManager } from '../NarrationManager';
 import { soundManager } from '../SoundManager';
 import { storageManager, CachedStory } from '../lib/StorageManager';
 import { logger } from '../lib/Logger';
+import { classifyApiError } from '../lib/ErrorHandler';
 
 export const useStoryEngine = (validateApiKey: () => Promise<boolean>, setShowApiKeyDialog: (show: boolean) => void) => {
     const [phase, setPhase] = useState<AppPhase>('setup');
@@ -216,23 +217,9 @@ export const useStoryEngine = (validateApiKey: () => Promise<boolean>, setShowAp
             }
         } catch (error: any) {
             logger.error("Avatar generation failed", error);
-            const status = error.status;
-            let msg: string;
-            if (error.message?.includes("404")) {
-                setShowApiKeyDialog(true);
-                msg = '';
-            } else if (status === 429) {
-                msg = "The avatar engine is busy. Please wait 30 seconds and try again.";
-            } else if (status === 400) {
-                msg = "Something about your hero confused the AI. Try different inputs.";
-            } else if (status === 403) {
-                msg = "API access denied. Check your Gemini API key configuration.";
-            } else if (status >= 500) {
-                msg = "The AI service is temporarily down. Please try again later.";
-            } else {
-                msg = `Avatar Error: ${error.message || "Could not generate hero."}`;
-            }
-            if (msg) setError(msg);
+            const { message, shouldShowApiDialog } = classifyApiError(error, 'avatar');
+            if (shouldShowApiDialog) setShowApiKeyDialog(true);
+            if (message) setError(message);
         } finally {
             setIsAvatarLoading(false);
         }
@@ -261,23 +248,9 @@ export const useStoryEngine = (validateApiKey: () => Promise<boolean>, setShowAp
             soundManager.playPageTurn();
         } catch (error: any) {
             logger.error("Story generation failed", error);
-            const status = error.status;
-            let msg: string;
-            if (error.message?.includes("404")) {
-                setShowApiKeyDialog(true);
-                msg = '';
-            } else if (status === 429) {
-                msg = "The storytelling engine is busy. Please wait 30 seconds and try again.";
-            } else if (status === 400) {
-                msg = "Something about your story setup confused the AI. Try different inputs.";
-            } else if (status === 403) {
-                msg = "API access denied. Check your Gemini API key configuration.";
-            } else if (status >= 500) {
-                msg = "The AI service is temporarily down. Please try again later.";
-            } else {
-                msg = `Mission Failed: ${error.message || 'Unknown error'}`;
-            }
-            if (msg) setError(msg);
+            const { message, shouldShowApiDialog } = classifyApiError(error, 'story');
+            if (shouldShowApiDialog) setShowApiKeyDialog(true);
+            if (message) setError(message);
         } finally {
             setIsLoading(false);
         }
@@ -298,14 +271,9 @@ export const useStoryEngine = (validateApiKey: () => Promise<boolean>, setShowAp
             }
         } catch (error: any) {
             logger.error('Scene generation failed', error);
-            const status = error.status;
-            if (error.message?.includes("404")) {
-                setShowApiKeyDialog(true);
-            } else if (status === 429) {
-                setError("The scene engine is busy. Please wait 30 seconds and try again.");
-            } else if (status >= 500) {
-                setError("The AI service is temporarily down. Please try again later.");
-            }
+            const { message, shouldShowApiDialog } = classifyApiError(error, 'scene');
+            if (shouldShowApiDialog) setShowApiKeyDialog(true);
+            if (message) setError(message);
         } finally {
             setIsSceneLoading(false);
         }
@@ -355,12 +323,12 @@ export const useStoryEngine = (validateApiKey: () => Promise<boolean>, setShowAp
         setError(null);
     }, [stopNarration]);
 
-    const deleteStory = async (id: string) => { 
+    const deleteStory = async (id: string): Promise<void> => { 
         await storageManager.deleteStory(id); 
         setHistory(await storageManager.getAllStories()); 
     };
 
-    const submitFeedback = async (rating: number, text: string) => {
+    const submitFeedback = async (rating: number, text: string): Promise<void> => {
         if (currentStoryId) {
             await storageManager.updateFeedback(currentStoryId, rating, text);
         }
