@@ -2,20 +2,37 @@
 
 ## Current Status
 
-**⚠️ Important:** This project currently **does not have a test framework** in place. The testing infrastructure documented here represents the **recommended approach** for contributors who wish to add tests.
+**✅ Testing infrastructure is installed.** The following framework is active:
 
-## Why No Tests Yet?
+- **Vitest 4.1** — test runner
+- **@testing-library/react 16.3** — component testing
+- **@testing-library/jest-dom 6.6** — DOM matchers
+- **@testing-library/user-event 14.5** — user interaction helpers
+- **happy-dom 20.8** — lightweight DOM environment
+- **fake-indexeddb 6.2** — in-memory IDB for StorageManager tests
 
-This is a rapid prototype focused on:
+Run tests with:
+```bash
+npm run test:run   # one-shot (CI)
+npm run test       # watch mode
+npm run test:ui    # browser UI
+```
+
+Active test suites (38 tests):
+- `lib/StorageManager.test.ts` — 20 tests: CRUD, sorting, scene/feedback, audio, error paths
+- `api/_middleware.test.ts` — 18 tests: input validation, rate limiting, CORS, error sanitization
+
+## Background
+
+This project started as a rapid prototype focused on:
 - Quick iteration on AI story generation features
 - PWA capabilities and offline functionality
 - User experience experimentation
 
-While the project is production-ready from a feature perspective, comprehensive automated testing would be valuable for:
-- Preventing regressions during refactoring
-- Documenting expected behavior
-- Catching edge cases in AI content generation
-- Ensuring COPPA compliance safeguards remain intact
+Automated testing is now established to provide:
+- Regression protection during refactoring
+- Documentation of expected behavior
+- Assurance that COPPA compliance safeguards remain intact
 
 ## Recommended Testing Stack
 
@@ -282,32 +299,7 @@ test('complete story generation flow', async ({ page }) => {
 
 ## CI/CD Integration
 
-Once tests are added, update `.github/workflows/ci.yml`:
-
-```yaml
-name: CI
-
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-      - run: npm ci
-      - run: npm run typecheck
-      - run: npm run lint
-      - run: npm run test -- --run
-      - run: npm run build
-```
+Tests run automatically in `.github/workflows/ci.yml` via `npm run test:run`.
 
 ## Resources
 
@@ -318,5 +310,5 @@ jobs:
 
 ---
 
-**Status:** Recommendation document (no tests currently implemented)  
+**Status:** Active — 38 tests implemented  
 **License:** Apache-2.0 · SPDX-License-Identifier: Apache-2.0
