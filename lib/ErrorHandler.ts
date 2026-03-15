@@ -31,7 +31,7 @@ export function classifyApiError(
 ): ApiErrorResult {
   const status = error.status;
 
-  if (error.message?.includes('404')) {
+  if (status === 404 || error.message?.includes('404')) {
     return { message: '', shouldShowApiDialog: true };
   }
   if (status === 429) {

@@ -13,6 +13,12 @@ describe('classifyApiError', () => {
       expect(result.message).toBe('');
       expect(result.shouldShowApiDialog).toBe(true);
     });
+
+    it('returns empty message and shouldShowApiDialog=true when status is 404', () => {
+      const result = classifyApiError({ status: 404 }, 'story');
+      expect(result.message).toBe('');
+      expect(result.shouldShowApiDialog).toBe(true);
+    });
   });
 
   describe('429 rate-limit', () => {
