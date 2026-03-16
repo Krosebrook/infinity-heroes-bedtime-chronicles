@@ -148,6 +148,13 @@ infinity-heroes_-bedtime-chronicles/
 | `npm run dev` | Start the Vite development server on port 3000 |
 | `npm run build` | Build the production bundle to `dist/` |
 | `npm run preview` | Preview the production build locally |
+| `npm run typecheck` | Run TypeScript type-checking without emitting files |
+| `npm run lint` | Lint all TypeScript source files (ESLint) |
+| `npm run lint:fix` | Auto-fix lint issues where possible |
+| `npm run test` | Run the test suite in watch mode (Vitest) |
+| `npm run test:run` | Run the full test suite once (used in CI) |
+| `npm run test:ui` | Open the Vitest UI for interactive test browsing |
+| `npm run test:coverage` | Run tests and generate a coverage report |
 
 ---
 

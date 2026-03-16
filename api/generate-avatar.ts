@@ -4,8 +4,8 @@
  */
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { GoogleGenAI } from '@google/genai';
 import { withMiddleware, validateString } from './_middleware';
+import { createAiClient } from './_aiClient';
 
 /**
  * Generate Avatar API Endpoint
@@ -37,7 +37,7 @@ export default withMiddleware(async (req: VercelRequest, res: VercelResponse) =>
     return res.status(400).json({ error: 'Invalid request parameters.' });
   }
 
-  const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
+  const ai = createAiClient();
 
   const response = await ai.models.generateContent({
     model: 'gemini-2.0-flash-preview-image-generation',
